@@ -29,6 +29,7 @@ from brnews.collector import (  # noqa: E402
     Collector,
     load_seen_ids,
     markdown_summary,
+    write_annotations,
     write_github_output,
     write_step_summary,
 )
@@ -163,6 +164,7 @@ def main(argv: list[str] | None = None) -> int:
     print(markdown_summary(result, top=10))
     write_step_summary(result)
     write_github_output(result)
+    write_annotations(result)
 
     if result.total_items == 0:
         print("nenhuma notícia coletada", file=sys.stderr)

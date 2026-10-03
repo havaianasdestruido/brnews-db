@@ -462,6 +462,33 @@ def write_step_summary(result: RunResult) -> None:
             handle.write(markdown_summary(result))
 
 
+def write_annotations(result: RunResult, max_warnings: int = 12) -> None:
+    """Emite ::notice/::warning para aparecerem no resumo da execução no GitHub."""
+    if not os.environ.get("GITHUB_ACTIONS"):
+        return
+    print(
+        f"::notice title=Coleta {result.run_id}::{result.total_items} notícias de "
+        f"{result.feeds_ok}/{result.feeds_total} feeds "
+        f"({result.feeds_empty} vazios, {result.feeds_failed} com erro) em "
+        f"{result.duration_seconds}s | rotas: {result.routes}",
+        flush=True,
+    )
+    problems = [r for r in result.feeds if r.status != "ok"]
+    for report in problems[:max_warnings]:
+        motivo = (report.error or "sem itens").replace("\n", " ")[:160]
+        print(
+            f"::warning title=Feed sem notícias: {report.feed_name}::"
+            f"{report.status} — {motivo} ({report.feed_url})",
+            flush=True,
+        )
+    if len(problems) > max_warnings:
+        print(
+            f"::notice::mais {len(problems) - max_warnings} feeds sem notícias "
+            "(lista completa no .report.json e no resumo do job)",
+            flush=True,
+        )
+
+
 def write_github_output(result: RunResult) -> None:
     output_file = os.environ.get("GITHUB_OUTPUT")
     if not output_file:
