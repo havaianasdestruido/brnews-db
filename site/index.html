@@ -1,0 +1,95 @@
+---
+layout: default
+title: brnews-db — acervo aberto de notícias em português
+---
+
+<section class="hero">
+  <div class="container">
+    <p class="badge">📰 coleta automática · toda segunda, 00:00 UTC</p>
+    <h1>Notícias brasileiras,<br>coletadas e versionadas toda semana.</h1>
+    <p class="lead">
+      O <strong>brnews-db</strong> percorre dezenas de feeds RSS (e páginas HTML) de
+      veículos brasileiros, normaliza tudo e grava um snapshot
+      <code>JSONL</code> novo no repositório. Nada é sobrescrito nem apagado —
+      o acervo só cresce.
+    </p>
+    <p class="actions">
+      <a class="btn btn-primary" href="{{ site.baseurl }}{{ site.docs_path }}">Ler a documentação</a>
+      <a class="btn btn-ghost" href="{{ site.github_url }}/tree/main/data">Explorar os dados</a>
+      <a class="btn btn-ghost" href="{{ site.github_url }}">Ver no GitHub</a>
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>Como funciona</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>1 · Uma linha por feed</h3>
+        <p>
+          A lista inteira vive em <code>rss.txt</code>:
+          <code>Nome do feed|https://exemplo.com/feed</code>. Usar
+          <code>Veículo - Editoria</code> no nome já alimenta os campos de
+          agrupamento. Páginas sem RSS entram com o sufixo <code>| HTML</code>.
+        </p>
+      </div>
+      <div class="card">
+        <h3>2 · Coleta resiliente</h3>
+        <p>
+          O coletor tenta <code>direct → proxy → mirror</code> até obter conteúdo
+          <em>válido</em> — driblando bloqueios de portais a IPs de datacenter —
+          e extrai manchetes por RSS, JSON-LD, cards ou Markdown.
+        </p>
+      </div>
+      <div class="card">
+        <h3>3 · Acervo append-only</h3>
+        <p>
+          Cada execução gera <code>data/&lt;ano&gt;/news-&lt;data&gt;.jsonl</code>
+          com um relatório por feed e uma linha nova no índice. Snapshots antigos
+          nunca mudam: dá para auditar qualquer semana do histórico.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <h2>Cada notícia já vem classificada</h2>
+    <p>
+      Cada linha do JSONL carrega o nome do feed, o veículo e a editoria — filtrar e
+      categorizar depois é trivial:
+    </p>
+    <pre><code>{"feed_name":"Metrópoles - Coluna Juris","feed_slug":"metropoles-coluna-juris",
+ "feed_group":"Metrópoles","feed_section":"Coluna Juris","feed_kind":"rss",
+ "title":"...","link":"...","published":"2026-10-04T18:30:00Z","summary":"..."}</code></pre>
+    <pre><code># ranking de notícias por feed
+jq -r '.feed_name' data/2026/news-*.jsonl | sort | uniq -c | sort -rn</code></pre>
+    <p>
+      O esquema completo (27 campos) e receitas com <code>jq</code>, Python e pandas
+      estão na
+      <a href="{{ site.baseurl }}{{ site.docs_path }}dados/formato">documentação dos dados</a>.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>Documentação completa</h2>
+    <div class="cards">
+      <a class="card card-link" href="{{ site.baseurl }}{{ site.docs_path }}guia/instalacao">
+        <h3>Guia de uso →</h3>
+        <p>Instalação, referência da CLI, formato do <code>rss.txt</code> e configuração de proxies.</p>
+      </a>
+      <a class="card card-link" href="{{ site.baseurl }}{{ site.docs_path }}arquitetura/visao-geral">
+        <h3>Arquitetura →</h3>
+        <p>O código, módulo por módulo: <code>feedlist</code>, <code>fetcher</code>, <code>parsers</code> e <code>collector</code>.</p>
+      </a>
+      <a class="card card-link" href="{{ site.baseurl }}{{ site.docs_path }}automacao/weekly-news">
+        <h3>Automação →</h3>
+        <p>Os workflows do GitHub Actions: coleta semanal, CI e a publicação deste site.</p>
+      </a>
+    </div>
+  </div>
+</section>

@@ -7,3 +7,16 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
+
+# Página inicial (Jekyll, site/)
+_site/
+site/.jekyll-cache/
+site/.jekyll-metadata
+
+# Documentação (Docusaurus, website/)
+website/node_modules/
+website/build/
+website/.docusaurus/
+
+# Preview local combinado (gerado, nunca commitado)
+_preview/

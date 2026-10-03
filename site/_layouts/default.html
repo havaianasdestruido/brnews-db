@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title | default: site.title }}</title>
+  <meta name="description" content="{{ site.description | strip_newlines }}">
+  <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/assets/img/logo.svg">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="{{ site.baseurl }}/">
+        <img src="{{ site.baseurl }}/assets/img/logo.svg" alt="" width="28" height="28">
+        <span>brnews-db</span>
+      </a>
+      <nav class="nav">
+        <a href="{{ site.baseurl }}{{ site.docs_path }}">Documentação</a>
+        <a href="{{ site.github_url }}/tree/main/data">Dados</a>
+        <a href="{{ site.github_url }}">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  {{ content }}
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>
+        <strong>brnews-db</strong> — acervo aberto de notícias em português.
+        Página inicial construída com <a href="https://jekyllrb.com/">Jekyll</a>;
+        documentação com <a href="https://docusaurus.io/">Docusaurus</a>.
+      </p>
+      <p>
+        <a href="{{ site.baseurl }}{{ site.docs_path }}">Documentação</a> ·
+        <a href="{{ site.github_url }}">GitHub</a> ·
+        <a href="{{ site.github_url }}/blob/main/LICENSE">Licença</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

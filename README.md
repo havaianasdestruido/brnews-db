@@ -8,6 +8,8 @@ Toda **segunda-feira às 00:00 UTC** um GitHub Actions passa por **todos** os fe
 
 | | |
 | --- | --- |
+| Site | [`havaianasdestruido.github.io/brnews-db`](https://havaianasdestruido.github.io/brnews-db/) (Jekyll, [`site/`](site/)) |
+| Documentação | [`.../brnews-db/docs`](https://havaianasdestruido.github.io/brnews-db/docs/) (Docusaurus, [`website/`](website/)) |
 | Workflow | [`.github/workflows/weekly-news.yml`](.github/workflows/weekly-news.yml) |
 | Agenda | `0 0 * * 1` (segunda, 00:00 UTC = domingo, 21:00 em Brasília) |
 | Coletor | [`scripts/collect_news.py`](scripts/collect_news.py) |
@@ -143,7 +145,24 @@ scripts/brnews/parsers.py           # RSS/Atom, HTML e Markdown -> notícia
 scripts/brnews/collector.py         # orquestração e escrita dos JSONL
 tests/                              # testes offline + fixtures
 data/                               # snapshots semanais (append-only)
+site/                               # página inicial do projeto (Jekyll)
+website/                            # documentação completa (Docusaurus, servida em /docs)
 ```
+
+## Site e documentação
+
+O projeto tem um GitHub Pages com dois geradores, publicados juntos pelo workflow
+[`pages.yml`](.github/workflows/pages.yml):
+
+* **Página inicial** — [`havaianasdestruido.github.io/brnews-db`](https://havaianasdestruido.github.io/brnews-db/),
+  construída com **Jekyll** a partir de [`site/`](site/);
+* **Documentação completa** — [`.../brnews-db/docs`](https://havaianasdestruido.github.io/brnews-db/docs/),
+  construída com **Docusaurus** a partir de [`website/`](website/): guia de uso,
+  referência da CLI, arquitetura módulo a módulo, formato dos dados e os workflows.
+
+Para ativar: **Settings → Pages → Build and deployment → GitHub Actions** (uma vez só).
+Desenvolvimento local: `cd website && npm install && npm run start` (documentação) e
+`cd site && jekyll serve --baseurl /brnews-db` (página inicial).
 
 ## Licença
 
