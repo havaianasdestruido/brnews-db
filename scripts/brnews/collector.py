@@ -476,9 +476,10 @@ def write_annotations(result: RunResult, max_warnings: int = 12) -> None:
     problems = [r for r in result.feeds if r.status != "ok"]
     for report in problems[:max_warnings]:
         motivo = (report.error or "sem itens").replace("\n", " ")[:160]
+        tentativas = " ; ".join(report.tried[:4])
         print(
             f"::warning title=Feed sem notícias: {report.feed_name}::"
-            f"{report.status} — {motivo} ({report.feed_url})",
+            f"{report.status} — {motivo} ({report.feed_url}) | tentativas: {tentativas}",
             flush=True,
         )
     if len(problems) > max_warnings:

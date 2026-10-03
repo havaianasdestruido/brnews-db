@@ -35,18 +35,23 @@ import requests
 LOGGER = logging.getLogger("brnews.fetcher")
 
 DEFAULT_USER_AGENTS = [
+    # Intercalado de propósito: se um navegador leva 403, a tentativa seguinte
+    # vai como leitor de RSS (muitos portais liberam Feedly/Inoreader).
     (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
         "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
     ),
+    "Feedly/1.0 (+https://feedly.com/fetcher.html; like FeedFetcher-Google)",
     (
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 "
         "(KHTML, like Gecko) Version/17.4 Safari/605.1.15"
     ),
+    "Mozilla/5.0 (compatible; Inoreader/1.0; +https://www.inoreader.com/feed-fetcher)",
     (
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/124.0.0.0 Safari/537.36"
     ),
+    "Tiny Tiny RSS/23.04 (https://tt-rss.org/)",
 ]
 
 # Espelhos públicos: {url} = URL crua, {qurl} = URL percent-encoded.
@@ -54,7 +59,8 @@ DEFAULT_USER_AGENTS = [
 DEFAULT_MIRRORS: List[dict] = [
     {"name": "allorigins", "template": "https://api.allorigins.win/raw?url={qurl}", "raw": True},
     {"name": "codetabs", "template": "https://api.codetabs.com/v1/proxy/?quest={qurl}", "raw": True},
-    {"name": "corsproxy", "template": "https://corsproxy.io/?{qurl}", "raw": True},
+    {"name": "corsproxy", "template": "https://corsproxy.io/?url={qurl}", "raw": True},
+    {"name": "whateverorigin", "template": "https://api.cors.lol/?url={qurl}", "raw": True},
     {"name": "jina", "template": "https://r.jina.ai/{url}", "raw": False},
 ]
 
@@ -267,9 +273,11 @@ class Fetcher:
             self._local.session = session
         return session
 
-    def _headers(self, extra: Optional[dict] = None) -> dict:
+    def _headers(self, extra: Optional[dict] = None, attempt: int = 0, url: str = "") -> dict:
+        # Alterna o User-Agent a cada tentativa (browser -> leitor de RSS -> ...)
+        user_agent = self.user_agents[attempt % len(self.user_agents)]
         headers = {
-            "User-Agent": random.choice(self.user_agents),
+            "User-Agent": user_agent,
             "Accept": (
                 "application/rss+xml, application/atom+xml, application/xml;q=0.9, "
                 "text/html;q=0.8, */*;q=0.7"
@@ -278,6 +286,10 @@ class Fetcher:
             "Cache-Control": "no-cache",
             "Pragma": "no-cache",
         }
+        if url:
+            parts = urlsplit(url)
+            if parts.scheme and parts.netloc:
+                headers["Referer"] = f"{parts.scheme}://{parts.netloc}/"
         if extra:
             headers.update(extra)
         return headers
@@ -300,12 +312,18 @@ class Fetcher:
         with self._counters_lock:
             self.route_counters[route] = self.route_counters.get(route, 0) + 1
 
-    def _request(self, url: str, proxy: Optional[str], extra_headers: Optional[dict] = None):
+    def _request(
+        self,
+        url: str,
+        proxy: Optional[str],
+        extra_headers: Optional[dict] = None,
+        attempt: int = 0,
+    ):
         proxies = {"http": proxy, "https": proxy} if proxy else None
         self._respect_host_delay(url)
         return self.session.get(
             url,
-            headers=self._headers(extra_headers),
+            headers=self._headers(extra_headers, attempt=attempt, url=url),
             timeout=self.timeout,
             proxies=proxies,
             allow_redirects=True,
@@ -350,7 +368,9 @@ class Fetcher:
                     result.attempts += 1
                     tried_label = f"{route_name}:{mask(label)}"
                     try:
-                        response = self._request(target_url, proxy)
+                        response = self._request(
+                            target_url, proxy, attempt=result.attempts - 1
+                        )
                         status = response.status_code
                         content = response.content or b""
                         if status >= 400 or not content:

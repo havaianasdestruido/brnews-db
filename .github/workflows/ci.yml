@@ -72,6 +72,7 @@ jobs:
             --dry-run --verbose \
             --max-feeds "${{ inputs.max_feeds || '0' }}" \
             --limit-per-feed 3 \
+            --attempts 3 \
             --workers 8 \
             --timeout 25 \
             --no-content
