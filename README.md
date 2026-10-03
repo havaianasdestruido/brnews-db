@@ -14,6 +14,10 @@ Toda **segunda-feira às 00:00 UTC** um GitHub Actions passa por **todos** os fe
 | Saída | `data/<ano>/news-<AAAA-MM-DD>T<HHMMSS>Z.jsonl` + `.report.json` + `data/index.jsonl` |
 | Formato | [`data/README.md`](data/README.md) |
 
+> **Para o cron começar a rodar, esta branch precisa estar no `main`** — o GitHub só
+> agenda workflows que existem na branch padrão. A primeira coleta real já foi feita e
+> está em `data/2026/` (2.631 notícias, 81 feeds) como amostra.
+
 ## Como os dados são organizados
 
 Cada linha do JSONL é uma notícia e **carrega o nome do feed** (além de veículo e editoria),
@@ -92,6 +96,20 @@ Opções úteis: `--workers`, `--timeout`, `--attempts`, `--max-age-days N`,
 
 Em *Actions → Coleta semanal de notícias → Run workflow* dá para escolher ordem das rotas,
 limite por feed, `include_content`, `gzip` e `dry_run` (testa sem commitar).
+
+## Saúde dos feeds (coleta real de 03/10/2026, sem proxy)
+
+| | |
+| --- | --- |
+| Feeds com notícias | **81 de 89** (2.631 itens, 148s) |
+| Falhas | 7 feeds bloqueados/fora do ar + 1 página sem links extraíveis |
+| Crescimento do repo | ~4 MB de JSONL por semana (~0,8 MB já comprimido no git) |
+
+Os feeds que falharam (`Valor Economia`, `Valor Econômico - Política`, `G1 Vale do Paraíba`,
+`CBN`, `Band News`, `Brasil de Fato SP`, `Congresso em Foco`, `O Vale`) respondem 403/erro de
+conexão para IPs de datacenter — é exatamente o caso em que configurar o secret `PROXY_LIST`
+(de preferência com saída no Brasil) resolve. A lista atualizada sai em cada execução, no
+resumo do job e no `.report.json` ao lado do JSONL.
 
 ## Testes
 
