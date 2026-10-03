@@ -98,4 +98,5 @@ veio, mas vazia.
 * **`Referer`** coerente com o host de destino e `Accept-Language: pt-BR`;
 * **intervalo mínimo por host** (`--min-interval`, padrão 1s) compartilhado entre as
   threads;
-* **backoff exponencial** com jitter entre tentativas da mesma rota.
+* **backoff linear** (`backoff × nº da tentativa`) com jitter entre tentativas da
+  mesma rota.

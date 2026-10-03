@@ -32,9 +32,10 @@ Depois dos testes, uma coleta de amostra com rede de verdade — marcada com
 `continue-on-error: true`, porque depende de sites de terceiros:
 
 ```bash
+# IN_MAX_FEEDS vem da entrada max_feeds (padrão 20; 0 = todos)
 python scripts/collect_news.py \
   --dry-run --verbose \
-  --max-feeds "${IN_MAX_FEEDS}" \   # entrada max_feeds (padrão 20; 0 = todos)
+  --max-feeds "${IN_MAX_FEEDS}" \
   --limit-per-feed 3 \
   --attempts 3 \
   --workers 8 \

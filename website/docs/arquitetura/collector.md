@@ -61,9 +61,10 @@ sequenceDiagram
    * feed `rss` → `parse_rss`; se vazio, tenta `parse_html` (`html-fallback`) —
      cobre feeds que "viraram" página HTML.
 3. **Segunda tentativa** — se ainda não há itens, refaz o download com a validação
-   **leniente** (`_validate_lenient`: só exige > 300 bytes e não-bloqueado). Se a
-   rota direta já tinha respondido, restringe a `["mirror", "proxy"]` (a resposta
-   direta veio, mas sem notícias — a esperança é outra "visão" da página).
+   **leniente** (`_validate_lenient`: só exige > 300 bytes e não-bloqueado). Se o
+   primeiro download **passou na validação** (qualquer rota, não só a direta),
+   restringe a `["mirror", "proxy"]`: a resposta veio, mas não produziu registros —
+   a nova tentativa busca outra "visão" da página por um espelho ou proxy.
 4. **Status final** — `ok` (tem registros), `empty` (baixou mas nada passou nos
    filtros; um eventual `bozo_reason` do feedparser vira o motivo) ou `error`.
 
