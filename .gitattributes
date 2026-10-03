@@ -1,0 +1,8 @@
+# O índice de execuções é append-only: merges/rebases juntam as duas pontas
+# em vez de gerar conflito.
+data/index.jsonl merge=union
+
+# Snapshots são dados gerados: não poluem o diff nem as estatísticas de linguagem.
+data/**/news-*.jsonl linguist-generated=true
+data/**/news-*.report.json linguist-generated=true
+data/**/news-*.jsonl.gz binary

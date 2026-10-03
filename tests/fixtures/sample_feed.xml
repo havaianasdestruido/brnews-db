@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>Exemplo Notícias</title>
+    <link>https://exemplo.com/</link>
+    <description>Feed de teste</description>
+    <language>pt-BR</language>
+    <item>
+      <title>Governo anuncia pacote para São Paulo</title>
+      <link>https://exemplo.com/noticia/pacote-sao-paulo-2026?utm_source=rss</link>
+      <guid isPermaLink="false">exemplo-1</guid>
+      <pubDate>Mon, 29 Sep 2026 12:30:00 -0300</pubDate>
+      <dc:creator>Redação</dc:creator>
+      <category>Política</category>
+      <category>Categorias</category>
+      <description><![CDATA[<p>O governo <b>anunciou</b> nesta segunda um pacote de investimentos.</p>]]></description>
+      <media:content url="https://exemplo.com/img/pacote.jpg" />
+    </item>
+    <item>
+      <title>Assembleia debate orçamento de 2027</title>
+      <link>https://exemplo.com/noticia/assembleia-orcamento-2027</link>
+      <guid>exemplo-2</guid>
+      <pubDate>Sun, 28 Sep 2026 08:00:00 -0300</pubDate>
+      <description>Debate ocorre na próxima semana.</description>
+    </item>
+    <item>
+      <title>Metrô amplia horário de funcionamento</title>
+      <link>https://exemplo.com/noticia/metro-horario</link>
+      <guid>exemplo-3</guid>
+      <pubDate>Sat, 27 Sep 2026 22:15:00 -0300</pubDate>
+      <description>Linhas 1 e 3 terão operação estendida.</description>
+    </item>
+  </channel>
+</rss>

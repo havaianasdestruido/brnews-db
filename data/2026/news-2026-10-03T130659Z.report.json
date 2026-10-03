@@ -1,0 +1,1722 @@
+{
+  "run_id": "20261003T130659Z-a7776a",
+  "started_at": "2026-10-03T13:06:59.043686Z",
+  "finished_at": "2026-10-03T13:09:27.336352Z",
+  "duration_seconds": 148.3,
+  "jsonl": "news-2026-10-03T130659Z.jsonl",
+  "schema_version": 1,
+  "totals": {
+    "feeds": 89,
+    "ok": 81,
+    "empty": 1,
+    "failed": 7,
+    "items": 2631,
+    "skipped_seen": 0
+  },
+  "routes": {
+    "direct": 82,
+    "failed": 15,
+    "mirror": 4
+  },
+  "proxies": {
+    "configured": 0,
+    "disabled": 0
+  },
+  "feeds": [
+    {
+      "feed_name": "Agência SP",
+      "feed_slug": "agencia-sp",
+      "feed_url": "https://www.agenciasp.sp.gov.br/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 10,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.85,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Alesp",
+      "feed_slug": "alesp",
+      "feed_url": "https://www.al.sp.gov.br/noticias/",
+      "feed_kind": "html",
+      "status": "ok",
+      "items": 8,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html:anchors",
+      "elapsed": 1.38,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - SP",
+      "feed_slug": "metropoles-sp",
+      "feed_url": "https://www.metropoles.com/sao-paulo/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.53,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Brasil",
+      "feed_slug": "metropoles-brasil",
+      "feed_url": "https://www.metropoles.com/brasil/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 23.59,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Política",
+      "feed_slug": "metropoles-politica",
+      "feed_url": "https://www.metropoles.com/politica/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 7.85,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - ALESP",
+      "feed_slug": "metropoles-alesp",
+      "feed_url": "https://www.metropoles.com/tag/alesp/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 5.97,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Colunas",
+      "feed_slug": "metropoles-colunas",
+      "feed_url": "https://www.metropoles.com/colunas/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.22,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Grande Angular",
+      "feed_slug": "metropoles-coluna-grande-angular",
+      "feed_url": "https://www.metropoles.com/colunas/grande-angular/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 8.34,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Igor Gadelha",
+      "feed_slug": "metropoles-coluna-igor-gadelha",
+      "feed_url": "https://www.metropoles.com/colunas/igor-gadelha/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 5.76,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Mário Sabino",
+      "feed_slug": "metropoles-coluna-mario-sabino",
+      "feed_url": "https://www.metropoles.com/colunas/mario-sabino/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 12.88,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Paulo Cappelli",
+      "feed_slug": "metropoles-coluna-paulo-cappelli",
+      "feed_url": "https://www.metropoles.com/colunas/paulo-cappelli/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.93,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Mirelle Pinheiro",
+      "feed_slug": "metropoles-coluna-mirelle-pinheiro",
+      "feed_url": "https://www.metropoles.com/colunas/mirelle-pinheiro/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.87,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Andreza Matais",
+      "feed_slug": "metropoles-coluna-andreza-matais",
+      "feed_url": "https://www.metropoles.com/colunas/andreza-matais/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.87,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Tácio Lorran",
+      "feed_slug": "metropoles-coluna-tacio-lorran",
+      "feed_url": "https://www.metropoles.com/colunas/tacio-lorran/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 24.1,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Manoela Alcântara",
+      "feed_slug": "metropoles-coluna-manoela-alcantara",
+      "feed_url": "https://www.metropoles.com/colunas/manoela-alcantara/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 6.98,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Blog do Noblat",
+      "feed_slug": "metropoles-blog-do-noblat",
+      "feed_url": "https://www.metropoles.com/blog-do-noblat/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 20.18,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Dinheiro e Negócios",
+      "feed_slug": "metropoles-coluna-dinheiro-e-negocios",
+      "feed_url": "https://www.metropoles.com/colunas/dinheiro-e-negocios/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 2.85,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Milena Teixeira",
+      "feed_slug": "metropoles-coluna-milena-teixeira",
+      "feed_url": "https://www.metropoles.com/colunas/milena-teixeira/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 21.49,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Fábia Oliveira",
+      "feed_slug": "metropoles-coluna-fabia-oliveira",
+      "feed_url": "https://www.metropoles.com/colunas/fabia-oliveira/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 12.06,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Ilca Maria Estevão",
+      "feed_slug": "metropoles-coluna-ilca-maria-estevao",
+      "feed_url": "https://www.metropoles.com/colunas/ilca-maria-estevao/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.09,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Cláudia Meireles",
+      "feed_slug": "metropoles-coluna-claudia-meireles",
+      "feed_url": "https://www.metropoles.com/colunas/claudia-meireles/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 14.94,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Rodrigo França",
+      "feed_slug": "metropoles-coluna-rodrigo-franca",
+      "feed_url": "https://www.metropoles.com/colunas/rodrigo-franca/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.06,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Tiago Pavinatto",
+      "feed_slug": "metropoles-coluna-tiago-pavinatto",
+      "feed_url": "https://www.metropoles.com/colunas/tiago-pavinatto/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 9.9,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Reinaldo Azevedo",
+      "feed_slug": "metropoles-coluna-reinaldo-azevedo",
+      "feed_url": "https://www.metropoles.com/colunas/reinaldo-azevedo/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.72,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Demétrio Vecchioli",
+      "feed_slug": "metropoles-coluna-demetrio-vecchioli",
+      "feed_url": "https://www.metropoles.com/colunas/demetrio-vecchioli/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.87,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Lucas Pasin",
+      "feed_slug": "metropoles-coluna-lucas-pasin",
+      "feed_url": "https://www.metropoles.com/colunas/lucas-pasin/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.96,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Conceição Freitas",
+      "feed_slug": "metropoles-coluna-conceicao-freitas",
+      "feed_url": "https://www.metropoles.com/colunas/conceicao-freitas/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.96,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Nas Redes",
+      "feed_slug": "metropoles-coluna-nas-redes",
+      "feed_url": "https://www.metropoles.com/colunas/nas-redes/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.03,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Juris",
+      "feed_slug": "metropoles-coluna-juris",
+      "feed_url": "https://www.metropoles.com/colunas/juris/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.08,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Podcast Leandro Mazzini",
+      "feed_slug": "metropoles-podcast-leandro-mazzini",
+      "feed_url": "https://www.metropoles.com/colunas/podcast-do-leandro-mazzini/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 11,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 8.93,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna M Buzz",
+      "feed_slug": "metropoles-coluna-m-buzz",
+      "feed_url": "https://www.metropoles.com/colunas/m-buzz/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.81,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna E o Bicho",
+      "feed_slug": "metropoles-coluna-e-o-bicho",
+      "feed_url": "https://www.metropoles.com/colunas/e-o-bicho/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 9.0,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metrópoles - Coluna Pouca Vergonha",
+      "feed_slug": "metropoles-coluna-pouca-vergonha",
+      "feed_url": "https://www.metropoles.com/colunas/pouca-vergonha/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.99,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Câmara dos Deputados",
+      "feed_slug": "camara-dos-deputados",
+      "feed_url": "https://www.camara.leg.br/noticias/rss/ultimas-noticias",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.95,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Agência Senado",
+      "feed_slug": "agencia-senado",
+      "feed_url": "https://www12.senado.leg.br/noticias/rss/",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 15,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.97,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Agência Brasil",
+      "feed_slug": "agencia-brasil",
+      "feed_url": "https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 10,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.39,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Folha de S.Paulo - Poder",
+      "feed_slug": "folha-de-s-paulo-poder",
+      "feed_url": "https://feeds.folha.uol.com.br/poder/rss091.xml",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 100,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.99,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Folha de S.Paulo - Cotidiano",
+      "feed_slug": "folha-de-s-paulo-cotidiano",
+      "feed_url": "https://feeds.folha.uol.com.br/cotidiano/rss091.xml",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 100,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.6,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Valor Econômico - Política",
+      "feed_slug": "valor-economico-politica",
+      "feed_url": "https://valor.globo.com/rss/politica",
+      "feed_kind": "rss",
+      "status": "error",
+      "items": 0,
+      "route": "",
+      "via": "",
+      "http_status": null,
+      "strategy": "",
+      "elapsed": 48.18,
+      "attempts": 14,
+      "error": "RequestException: conteúdo inválido/bloqueado",
+      "tried": [
+        "direct:direct (RequestException: HTTP 400)",
+        "direct:direct (RequestException: HTTP 400)",
+        "mirror:allorigins (RequestException: HTTP 522)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina (RequestException: conteúdo inválido/bloqueado)",
+        "mirror:allorigins (RequestException: HTTP 522)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina (RequestException: conteúdo inválido/bloqueado)"
+      ]
+    },
+    {
+      "feed_name": "G1 SP",
+      "feed_slug": "g1-sp",
+      "feed_url": "https://g1.globo.com/dynamo/sp/sao-paulo/rss2.xml",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 100,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.22,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "G1 Política",
+      "feed_slug": "g1-politica",
+      "feed_url": "https://g1.globo.com/dynamo/politica/rss2.xml",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 100,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 2.4,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "UOL",
+      "feed_slug": "uol",
+      "feed_url": "https://rss.uol.com.br/feed/noticias.xml",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 15,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.67,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "UOL Começar o dia",
+      "feed_slug": "uol-comecar-o-dia",
+      "feed_url": "https://rss.uol.com.br/feed/comecar-o-dia.xml",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 15,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.69,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "CNN Brasil",
+      "feed_slug": "cnn-brasil",
+      "feed_url": "https://admin.cnnbrasil.com.br/feed/",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 60,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.47,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "R7",
+      "feed_slug": "r7",
+      "feed_url": "https://portalnoticiasr7.webnode.page/rss/noticias.xml",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 4,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.53,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Jovem Pan",
+      "feed_slug": "jovem-pan",
+      "feed_url": "https://jovempan.com.br/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 10,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.53,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "BBC Brasil",
+      "feed_slug": "bbc-brasil",
+      "feed_url": "https://feeds.bbci.co.uk/portuguese/rss.xml",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 29,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.44,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "El País Brasil",
+      "feed_slug": "el-pais-brasil",
+      "feed_url": "https://feeds.elpais.com/mrss-s/pages/ep/site/brasil.elpais.com/portada",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 58,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.42,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Correio Braziliense - Política",
+      "feed_slug": "correio-braziliense-politica",
+      "feed_url": "https://www.correiobraziliense.com.br/rss/politica",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 14,
+      "route": "mirror",
+      "via": "jina",
+      "http_status": 200,
+      "strategy": "markdown",
+      "elapsed": 46.04,
+      "attempts": 14,
+      "error": "",
+      "tried": [
+        "direct:direct (RequestException: HTTP 404)",
+        "direct:direct (RequestException: HTTP 404)",
+        "mirror:allorigins (RequestException: HTTP 522)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 404)",
+        "mirror:jina (RequestException: conteúdo inválido/bloqueado)",
+        "mirror:allorigins (RequestException: HTTP 522)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina"
+      ]
+    },
+    {
+      "feed_name": "Correio da Manhã",
+      "feed_slug": "correio-da-manha",
+      "feed_url": "https://www.correiodamanha.com.br/nacional/sao-paulo/estado-de-sao-paulo",
+      "feed_kind": "html",
+      "status": "ok",
+      "items": 15,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html:cards",
+      "elapsed": 0.28,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Poder360",
+      "feed_slug": "poder360",
+      "feed_url": "https://www.poder360.com.br/feed/",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 10,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.23,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Congresso em Foco",
+      "feed_slug": "congresso-em-foco",
+      "feed_url": "https://congressoemfoco.uol.com.br/feed/",
+      "feed_kind": "rss",
+      "status": "error",
+      "items": 0,
+      "route": "",
+      "via": "",
+      "http_status": null,
+      "strategy": "",
+      "elapsed": 36.33,
+      "attempts": 14,
+      "error": "RequestException: HTTP 422",
+      "tried": [
+        "direct:direct (ConnectionError: HTTPSConnectionPool(host='congressoemfoco.uol.com.br', port=443)",
+        "direct:direct (ConnectionError: HTTPSConnectionPool(host='congressoemfoco.uol.com.br', port=443)",
+        "mirror:allorigins (RequestException: HTTP 500)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina (RequestException: HTTP 422)",
+        "mirror:allorigins (RequestException: HTTP 522)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina (RequestException: HTTP 422)"
+      ]
+    },
+    {
+      "feed_name": "CartaCapital",
+      "feed_slug": "cartacapital",
+      "feed_url": "https://www.cartacapital.com.br/feed/",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.2,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "O Antagonista",
+      "feed_slug": "o-antagonista",
+      "feed_url": "https://www.oantagonista.com/feed/",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 15,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.29,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Brasil de Fato SP",
+      "feed_slug": "brasil-de-fato-sp",
+      "feed_url": "https://www.brasildefatosp.com.br/feed/",
+      "feed_kind": "rss",
+      "status": "error",
+      "items": 0,
+      "route": "",
+      "via": "",
+      "http_status": null,
+      "strategy": "",
+      "elapsed": 28.38,
+      "attempts": 14,
+      "error": "RequestException: HTTP 422",
+      "tried": [
+        "direct:direct (ConnectionError: HTTPSConnectionPool(host='www.brasildefatosp.com.br', port=443))",
+        "direct:direct (ConnectionError: HTTPSConnectionPool(host='www.brasildefatosp.com.br', port=443))",
+        "mirror:allorigins (RequestException: HTTP 400)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina (RequestException: HTTP 422)",
+        "mirror:allorigins (RequestException: HTTP 522)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina (RequestException: HTTP 422)"
+      ]
+    },
+    {
+      "feed_name": "Revista Piauí",
+      "feed_slug": "revista-piaui",
+      "feed_url": "https://piaui.folha.uol.com.br/feed/",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 30,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.0,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Revista Oeste",
+      "feed_slug": "revista-oeste",
+      "feed_url": "https://revistaoeste.com/feed/",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 10,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.2,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Gazeta do Povo",
+      "feed_slug": "gazeta-do-povo",
+      "feed_url": "https://www.gazetadopovo.com.br/",
+      "feed_kind": "html",
+      "status": "ok",
+      "items": 60,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html:cards",
+      "elapsed": 0.27,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Gazeta do Povo São Paulo",
+      "feed_slug": "gazeta-do-povo-sao-paulo",
+      "feed_url": "https://www.gazetadopovo.com.br/feed/rss/sao-paulo.xml",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 24,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 2.83,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Gazeta do Povo Últimas Notícias",
+      "feed_slug": "gazeta-do-povo-ultimas-noticias",
+      "feed_url": "https://www.gazetadopovo.com.br/feed/rss/ultimas-noticias.xml",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 233,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.81,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Gazeta do Povo Artigos",
+      "feed_slug": "gazeta-do-povo-artigos",
+      "feed_url": "https://www.gazetadopovo.com.br/feed/rss/opiniao/artigos.xml",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 24,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.18,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Veja",
+      "feed_slug": "veja",
+      "feed_url": "https://veja.abril.com.br/feed/",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 2.0,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Exame",
+      "feed_slug": "exame",
+      "feed_url": "https://exame.com/feed/",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 25,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.25,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "InfoMoney",
+      "feed_slug": "infomoney",
+      "feed_url": "https://www.infomoney.com.br/feed/",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 10,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.47,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Money Times",
+      "feed_slug": "money-times",
+      "feed_url": "https://www.moneytimes.com.br/feed/",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 10,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.16,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "CBN",
+      "feed_slug": "cbn",
+      "feed_url": "https://cbn.globoradio.globo.com/rss/noticias/",
+      "feed_kind": "rss",
+      "status": "error",
+      "items": 0,
+      "route": "",
+      "via": "",
+      "http_status": null,
+      "strategy": "",
+      "elapsed": 49.98,
+      "attempts": 14,
+      "error": "RequestException: conteúdo inválido/bloqueado",
+      "tried": [
+        "direct:direct (RequestException: HTTP 404)",
+        "direct:direct (RequestException: HTTP 404)",
+        "mirror:allorigins (RequestException: HTTP 522)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina (RequestException: conteúdo inválido/bloqueado)",
+        "mirror:allorigins (RequestException: HTTP 522)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina"
+      ]
+    },
+    {
+      "feed_name": "Band News",
+      "feed_slug": "band-news",
+      "feed_url": "https://bandnews.com.br/feed",
+      "feed_kind": "rss",
+      "status": "error",
+      "items": 0,
+      "route": "",
+      "via": "",
+      "http_status": null,
+      "strategy": "",
+      "elapsed": 47.84,
+      "attempts": 14,
+      "error": "RequestException: HTTP 422",
+      "tried": [
+        "direct:direct (SSLError: HTTPSConnectionPool(host='bandnews.com.br', port=443): Max retries exc)",
+        "direct:direct (SSLError: HTTPSConnectionPool(host='bandnews.com.br', port=443): Max retries exc)",
+        "mirror:allorigins (RequestException: HTTP 522)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina (RequestException: HTTP 422)",
+        "mirror:allorigins (RequestException: HTTP 522)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina (RequestException: HTTP 422)"
+      ]
+    },
+    {
+      "feed_name": "A Tribuna",
+      "feed_slug": "a-tribuna",
+      "feed_url": "https://www.atribuna.com.br/noticias/ultimas-noticias/",
+      "feed_kind": "html",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html:cards",
+      "elapsed": 1.38,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Diário do Grande ABC",
+      "feed_slug": "diario-do-grande-abc",
+      "feed_url": "https://www.dgabc.com.br/",
+      "feed_kind": "html",
+      "status": "ok",
+      "items": 58,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html:cards+anchors",
+      "elapsed": 0.42,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Diário do Grande ABC - Sete Cidades",
+      "feed_slug": "diario-do-grande-abc-sete-cidades",
+      "feed_url": "https://www.dgabc.com.br/Editoria/1/setecidades/",
+      "feed_kind": "html",
+      "status": "ok",
+      "items": 7,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html:cards",
+      "elapsed": 0.72,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Diário de S.Paulo",
+      "feed_slug": "diario-de-s-paulo",
+      "feed_url": "https://spdiario.com.br/",
+      "feed_kind": "html",
+      "status": "ok",
+      "items": 58,
+      "route": "mirror",
+      "via": "jina",
+      "http_status": 200,
+      "strategy": "markdown",
+      "elapsed": 45.93,
+      "attempts": 7,
+      "error": "",
+      "tried": [
+        "direct:direct (RequestException: HTTP 403)",
+        "direct:direct (RequestException: HTTP 403)",
+        "mirror:allorigins (RequestException: HTTP 522)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 403)",
+        "mirror:jina"
+      ]
+    },
+    {
+      "feed_name": "G1 Vale do Paraíba",
+      "feed_slug": "g1-vale-do-paraiba",
+      "feed_url": "https://g1.globo.com/dynamo/sp/vale-do-paraiba-e-regiao/rss2.xml",
+      "feed_kind": "rss",
+      "status": "error",
+      "items": 0,
+      "route": "",
+      "via": "",
+      "http_status": null,
+      "strategy": "",
+      "elapsed": 19.09,
+      "attempts": 8,
+      "error": "RequestException: conteúdo inválido/bloqueado",
+      "tried": [
+        "direct:direct (RequestException: conteúdo inválido/bloqueado)",
+        "direct:direct (RequestException: conteúdo inválido/bloqueado)",
+        "mirror:allorigins (RequestException: HTTP 500)",
+        "mirror:codetabs (RequestException: HTTP 503)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina (RequestException: conteúdo inválido/bloqueado)",
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "O Vale",
+      "feed_slug": "o-vale",
+      "feed_url": "https://www.ovale.com.br/",
+      "feed_kind": "html",
+      "status": "empty",
+      "items": 0,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html:vazio",
+      "elapsed": 1.37,
+      "attempts": 4,
+      "error": "",
+      "tried": [
+        "direct:direct",
+        "mirror:allorigins (RequestException: HTTP 522)",
+        "mirror:codetabs (RequestException: HTTP 503)",
+        "mirror:cors-lol"
+      ]
+    },
+    {
+      "feed_name": "Valor Politica",
+      "feed_slug": "valor-politica",
+      "feed_url": "https://pox.globo.com/rss/valor/politica",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 100,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.99,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Valor Economia",
+      "feed_slug": "valor-economia",
+      "feed_url": "https://pox.globo.com/rss/valor/economia",
+      "feed_kind": "rss",
+      "status": "error",
+      "items": 0,
+      "route": "",
+      "via": "",
+      "http_status": null,
+      "strategy": "",
+      "elapsed": 56.58,
+      "attempts": 8,
+      "error": "RequestException: conteúdo inválido/bloqueado",
+      "tried": [
+        "direct:direct (RequestException: conteúdo inválido/bloqueado)",
+        "direct:direct (RequestException: conteúdo inválido/bloqueado)",
+        "mirror:allorigins (ReadTimeout: HTTPSConnectionPool(host='api.allorigins.win', port=443): Read time)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina (RequestException: conteúdo inválido/bloqueado)",
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Valor Empresas",
+      "feed_slug": "valor-empresas",
+      "feed_url": "https://pox.globo.com/rss/valor/empresas",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 100,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.8,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "G1",
+      "feed_slug": "g1",
+      "feed_url": "https://pox.globo.com/rss/g1",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 100,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.86,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "O Globo",
+      "feed_slug": "o-globo",
+      "feed_url": "https://pox.globo.com/rss/oglobo",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 100,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.42,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metropoles",
+      "feed_slug": "metropoles",
+      "feed_url": "https://www.metropoles.com/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.12,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Metropoles - Politica",
+      "feed_slug": "metropoles-politica",
+      "feed_url": "https://www.metropoles.com/tag/politica/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 20,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 1.22,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Poder 360",
+      "feed_slug": "poder-360",
+      "feed_url": "https://www.poder360.com.br/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 10,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "rss",
+      "elapsed": 0.24,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Poder 360 - Governo",
+      "feed_slug": "poder-360-governo",
+      "feed_url": "https://www.poder360.com.br/governo/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 60,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html-fallback",
+      "elapsed": 34.88,
+      "attempts": 8,
+      "error": "",
+      "tried": [
+        "direct:direct (RequestException: conteúdo inválido/bloqueado)",
+        "direct:direct (RequestException: conteúdo inválido/bloqueado)",
+        "mirror:allorigins (RequestException: HTTP 408)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina (RequestException: conteúdo inválido/bloqueado)",
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Poder 360 - Congresso",
+      "feed_slug": "poder-360-congresso",
+      "feed_url": "https://www.poder360.com.br/congresso/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 60,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html-fallback",
+      "elapsed": 45.25,
+      "attempts": 8,
+      "error": "",
+      "tried": [
+        "direct:direct (RequestException: conteúdo inválido/bloqueado)",
+        "direct:direct (RequestException: conteúdo inválido/bloqueado)",
+        "mirror:allorigins (RequestException: HTTP 522)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 403)",
+        "mirror:jina (RequestException: conteúdo inválido/bloqueado)",
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Poder 360 - Politica",
+      "feed_slug": "poder-360-politica",
+      "feed_url": "https://www.poder360.com.br/politica/feed",
+      "feed_kind": "rss",
+      "status": "ok",
+      "items": 60,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html-fallback",
+      "elapsed": 34.1,
+      "attempts": 8,
+      "error": "",
+      "tried": [
+        "direct:direct (RequestException: conteúdo inválido/bloqueado)",
+        "direct:direct (RequestException: conteúdo inválido/bloqueado)",
+        "mirror:allorigins (RequestException: HTTP 520)",
+        "mirror:codetabs (RequestException: HTTP 522)",
+        "mirror:cors-lol (RequestException: HTTP 429)",
+        "mirror:jina (RequestException: conteúdo inválido/bloqueado)",
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Estadão - Política",
+      "feed_slug": "estadao-politica",
+      "feed_url": "https://www.estadao.com.br/politica/#ultimas/",
+      "feed_kind": "html",
+      "status": "ok",
+      "items": 22,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html:cards+anchors",
+      "elapsed": 0.24,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Estadão - São Paulo",
+      "feed_slug": "estadao-sao-paulo",
+      "feed_url": "https://www.estadao.com.br/sao-paulo/",
+      "feed_kind": "html",
+      "status": "ok",
+      "items": 6,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html:cards+anchors",
+      "elapsed": 0.8,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Estadão - Sustentabilidade",
+      "feed_slug": "estadao-sustentabilidade",
+      "feed_url": "https://www.estadao.com.br/sustentabilidade/",
+      "feed_kind": "html",
+      "status": "ok",
+      "items": 6,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html:cards+anchors",
+      "elapsed": 1.29,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "Estadão - Blogs e Colunas",
+      "feed_slug": "estadao-blogs-e-colunas",
+      "feed_url": "https://www.estadao.com.br/blogs-e-colunas/ultimas/",
+      "feed_kind": "html",
+      "status": "ok",
+      "items": 2,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html:anchors",
+      "elapsed": 2.26,
+      "attempts": 1,
+      "error": "",
+      "tried": [
+        "direct:direct"
+      ]
+    },
+    {
+      "feed_name": "O Liberal Regional",
+      "feed_slug": "o-liberal-regional",
+      "feed_url": "https://lr1.com.br/",
+      "feed_kind": "html",
+      "status": "ok",
+      "items": 37,
+      "route": "direct",
+      "via": "direct",
+      "http_status": 200,
+      "strategy": "html:cards",
+      "elapsed": 2.01,
+      "attempts": 2,
+      "error": "",
+      "tried": [
+        "direct:direct (RequestException: HTTP 429)",
+        "direct:direct"
+      ]
+    }
+  ]
+}

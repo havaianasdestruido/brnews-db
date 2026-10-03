@@ -1,0 +1,15 @@
+# Lista opcional de proxies usados pelo coletor (rota "proxy").
+#
+# Copie para config/proxies.txt (ignorado pelo git) ou, melhor ainda,
+# cadastre o conteúdo no secret PROXY_LIST do repositório:
+#   Settings > Secrets and variables > Actions > New repository secret
+#   Nome: PROXY_LIST   Valor: um proxy por linha (ou separados por vírgula)
+#
+# Formatos aceitos (um por linha; "#" é comentário):
+#   http://usuario:senha@proxy.exemplo.com:3128
+#   https://proxy.exemplo.com:8443
+#   socks5://usuario:senha@proxy.exemplo.com:1080
+#   189.12.34.56:8080          (vira http:// automaticamente)
+#
+# Proxies que falharem 3 vezes seguidas ficam 15 minutos de castigo
+# e a coleta segue pelos outros (ou pelos espelhos públicos).
