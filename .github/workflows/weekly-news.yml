@@ -6,6 +6,10 @@ name: Coleta semanal de notícias
 on:
   schedule:
     - cron: "0 0 * * 1"
+  # TEMPORÁRIO: validação end-to-end nesta branch (será removido)
+  push:
+    paths:
+      - ".github/workflows/weekly-news.yml"
   workflow_dispatch:
     inputs:
       limit_per_feed:

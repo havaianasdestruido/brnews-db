@@ -70,7 +70,7 @@ jobs:
         run: |
           python scripts/collect_news.py \
             --dry-run --verbose \
-            --max-feeds "${{ inputs.max_feeds || '0' }}" \
+            --max-feeds "${{ inputs.max_feeds || '20' }}" \
             --limit-per-feed 3 \
             --attempts 3 \
             --workers 8 \
