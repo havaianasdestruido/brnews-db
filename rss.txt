@@ -1,0 +1,90 @@
+Agência SP|https://www.agenciasp.sp.gov.br/feed
+Alesp|https://www.al.sp.gov.br/noticias/ | HTML
+Metrópoles - SP|https://www.metropoles.com/sao-paulo/feed
+Metrópoles - Brasil|https://www.metropoles.com/brasil/feed
+Metrópoles - Política|https://www.metropoles.com/politica/feed
+Metrópoles - ALESP|https://www.metropoles.com/tag/alesp/feed
+Metrópoles - Colunas|https://www.metropoles.com/colunas/feed
+Metrópoles - Coluna Grande Angular|https://www.metropoles.com/colunas/grande-angular/feed
+Metrópoles - Coluna Igor Gadelha|https://www.metropoles.com/colunas/igor-gadelha/feed
+Metrópoles - Coluna Mário Sabino|https://www.metropoles.com/colunas/mario-sabino/feed
+Metrópoles - Coluna Paulo Cappelli|https://www.metropoles.com/colunas/paulo-cappelli/feed
+Metrópoles - Coluna Mirelle Pinheiro|https://www.metropoles.com/colunas/mirelle-pinheiro/feed
+Metrópoles - Coluna Andreza Matais|https://www.metropoles.com/colunas/andreza-matais/feed
+Metrópoles - Coluna Tácio Lorran|https://www.metropoles.com/colunas/tacio-lorran/feed
+Metrópoles - Coluna Manoela Alcântara|https://www.metropoles.com/colunas/manoela-alcantara/feed
+Metrópoles - Blog do Noblat|https://www.metropoles.com/blog-do-noblat/feed
+Metrópoles - Coluna Dinheiro e Negócios|https://www.metropoles.com/colunas/dinheiro-e-negocios/feed
+Metrópoles - Coluna Milena Teixeira|https://www.metropoles.com/colunas/milena-teixeira/feed
+Metrópoles - Coluna Fábia Oliveira|https://www.metropoles.com/colunas/fabia-oliveira/feed
+Metrópoles - Coluna Ilca Maria Estevão|https://www.metropoles.com/colunas/ilca-maria-estevao/feed
+Metrópoles - Coluna Cláudia Meireles|https://www.metropoles.com/colunas/claudia-meireles/feed
+Metrópoles - Coluna Rodrigo França|https://www.metropoles.com/colunas/rodrigo-franca/feed
+Metrópoles - Coluna Tiago Pavinatto|https://www.metropoles.com/colunas/tiago-pavinatto/feed
+Metrópoles - Coluna Reinaldo Azevedo|https://www.metropoles.com/colunas/reinaldo-azevedo/feed
+Metrópoles - Coluna Demétrio Vecchioli|https://www.metropoles.com/colunas/demetrio-vecchioli/feed
+Metrópoles - Coluna Lucas Pasin|https://www.metropoles.com/colunas/lucas-pasin/feed
+Metrópoles - Coluna Conceição Freitas|https://www.metropoles.com/colunas/conceicao-freitas/feed
+Metrópoles - Coluna Nas Redes|https://www.metropoles.com/colunas/nas-redes/feed
+Metrópoles - Coluna Juris|https://www.metropoles.com/colunas/juris/feed
+Metrópoles - Podcast Leandro Mazzini|https://www.metropoles.com/colunas/podcast-do-leandro-mazzini/feed
+Metrópoles - Coluna M Buzz|https://www.metropoles.com/colunas/m-buzz/feed
+Metrópoles - Coluna E o Bicho|https://www.metropoles.com/colunas/e-o-bicho/feed
+Metrópoles - Coluna Pouca Vergonha|https://www.metropoles.com/colunas/pouca-vergonha/feed
+Câmara dos Deputados|https://www.camara.leg.br/noticias/rss/ultimas-noticias
+Agência Senado|https://www12.senado.leg.br/noticias/rss/
+Agência Brasil|https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml
+Folha de S.Paulo - Poder|https://feeds.folha.uol.com.br/poder/rss091.xml
+Folha de S.Paulo - Cotidiano|https://feeds.folha.uol.com.br/cotidiano/rss091.xml
+Valor Econômico - Política|https://valor.globo.com/rss/politica
+G1 SP|https://g1.globo.com/dynamo/sp/sao-paulo/rss2.xml
+G1 Política|https://g1.globo.com/dynamo/politica/rss2.xml
+UOL|https://rss.uol.com.br/feed/noticias.xml
+UOL Começar o dia|https://rss.uol.com.br/feed/comecar-o-dia.xml
+CNN Brasil|https://admin.cnnbrasil.com.br/feed/
+R7|https://portalnoticiasr7.webnode.page/rss/noticias.xml
+Jovem Pan|https://jovempan.com.br/feed
+BBC Brasil|https://feeds.bbci.co.uk/portuguese/rss.xml
+El País Brasil|https://feeds.elpais.com/mrss-s/pages/ep/site/brasil.elpais.com/portada
+Correio Braziliense - Política|https://www.correiobraziliense.com.br/rss/politica
+Correio da Manhã|https://www.correiodamanha.com.br/nacional/sao-paulo/estado-de-sao-paulo | HTML
+Poder360|https://www.poder360.com.br/feed/
+Congresso em Foco|https://congressoemfoco.uol.com.br/feed/
+CartaCapital|https://www.cartacapital.com.br/feed/
+O Antagonista|https://www.oantagonista.com/feed/
+Brasil de Fato SP|https://www.brasildefatosp.com.br/feed/
+Revista Piauí|https://piaui.folha.uol.com.br/feed/
+Revista Oeste|https://revistaoeste.com/feed/
+Gazeta do Povo|https://www.gazetadopovo.com.br/ | HTML
+Gazeta do Povo São Paulo|https://www.gazetadopovo.com.br/feed/rss/sao-paulo.xml
+Gazeta do Povo Últimas Notícias|https://www.gazetadopovo.com.br/feed/rss/ultimas-noticias.xml
+Gazeta do Povo Artigos|https://www.gazetadopovo.com.br/feed/rss/opiniao/artigos.xml
+Veja|https://veja.abril.com.br/feed/
+Exame|https://exame.com/feed/
+InfoMoney|https://www.infomoney.com.br/feed/
+Money Times|https://www.moneytimes.com.br/feed/
+CBN|https://cbn.globoradio.globo.com/rss/noticias/
+Band News|https://bandnews.com.br/feed
+A Tribuna|https://www.atribuna.com.br/noticias/ultimas-noticias/ | HTML
+Diário do Grande ABC|https://www.dgabc.com.br/ | HTML
+Diário do Grande ABC - Sete Cidades|https://www.dgabc.com.br/Editoria/1/setecidades/ | HTML
+Diário de S.Paulo|https://spdiario.com.br/ | HTML
+G1 Vale do Paraíba|https://g1.globo.com/dynamo/sp/vale-do-paraiba-e-regiao/rss2.xml
+O Vale|https://www.ovale.com.br/ | HTML
+Valor Politica|https://pox.globo.com/rss/valor/politica
+Valor Economia|https://pox.globo.com/rss/valor/economia
+Valor Empresas|https://pox.globo.com/rss/valor/empresas
+G1|https://pox.globo.com/rss/g1
+O Globo|https://pox.globo.com/rss/oglobo
+Metropoles|https://www.metropoles.com/feed
+Metropoles - Brasil|https://www.metropoles.com/brasil/feed
+Metropoles - Politica|https://www.metropoles.com/tag/politica/feed
+Poder 360|https://www.poder360.com.br/feed
+Poder 360 - Governo|https://www.poder360.com.br/governo/feed
+Poder 360 - Congresso|https://www.poder360.com.br/congresso/feed
+Poder 360 - Politica|https://www.poder360.com.br/politica/feed
+Estadão - Política|https://www.estadao.com.br/politica/#ultimas/ | HTML
+Estadão - São Paulo|https://www.estadao.com.br/sao-paulo/ | HTML
+Estadão - Sustentabilidade|https://www.estadao.com.br/sustentabilidade/ | HTML
+Estadão - Blogs e Colunas|https://www.estadao.com.br/blogs-e-colunas/ultimas/ | HTML
+O Liberal Regional|https://lr1.com.br/ | HTML
