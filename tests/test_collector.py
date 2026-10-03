@@ -216,6 +216,18 @@ class CollectorEndToEndTests(unittest.TestCase):
             self.assertEqual(result.feeds[0].via, "espelho-local")
             self.assertEqual(result.total_items, 3)
 
+    def test_rss_feed_that_returns_html_is_recovered(self):
+        """Feed RSS que virou página HTML: 2ª tentativa com validação frouxa."""
+        with LocalServer(FIXTURES) as server, TemporaryDirectory() as tmp:
+            feeds = [Feed(name="Virou HTML", url=server.url("sample_page.html"), kind="rss")]
+            fetcher = Fetcher(route_order=["direct"], attempts_per_route=1, min_interval_per_host=0)
+            result = Collector(fetcher=fetcher, output_dir=Path(tmp), workers=1).run(
+                feeds, dry_run=True
+            )
+            self.assertEqual(result.feeds_ok, 1)
+            self.assertGreaterEqual(result.total_items, 3)
+            self.assertIn("html", result.feeds[0].strategy)
+
     def test_blocked_page_is_rejected(self):
         with LocalServer(FIXTURES) as server, TemporaryDirectory() as tmp:
             fetcher = Fetcher(route_order=["direct"], attempts_per_route=1, min_interval_per_host=0)

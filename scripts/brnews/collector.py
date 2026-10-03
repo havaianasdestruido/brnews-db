@@ -87,6 +87,11 @@ def _validate_html(content: bytes, text: str) -> bool:
     return len(content) > 800 and not looks_blocked(content, text)
 
 
+def _validate_lenient(content: bytes, text: str) -> bool:
+    """2ª tentativa: aceita qualquer conteúdo que não seja página de bloqueio."""
+    return len(content) > 300 and not looks_blocked(content, text)
+
+
 # ------------------------------------------------------------------- coletor
 class Collector:
     def __init__(
@@ -132,23 +137,44 @@ class Collector:
         report.attempts = fetched.attempts
         report.tried = fetched.tried[-6:]
 
-        if not fetched.ok:
+        records: List[dict] = []
+        parsed: Optional[ParsedFeed] = None
+
+        if fetched.ok:
+            parsed = self._parse(feed, fetched)
+            records = self._records(feed, parsed, fetched, run_id, collected_at)
+
+        if parsed is None or not parsed.items:
+            # 2ª tentativa: validação frouxa (feed que virou HTML, página que
+            # não rendeu links) e, se a rota direta já respondeu, só espelhos.
+            routes = ["mirror", "proxy"] if fetched.ok else None
+            LOGGER.info("[%s] nada na 1ª tentativa; tentando %s", feed.name, routes or "todas as rotas")
+            retry = self.fetcher.get(
+                feed.url,
+                validate=_validate_lenient,
+                allow_markdown_mirrors=True,
+                routes=routes,
+            )
+            report.tried.extend(retry.tried[-4:])
+            report.attempts += retry.attempts
+            if retry.ok:
+                retry_parsed = self._parse(feed, retry)
+                retry_records = self._records(
+                    feed, retry_parsed, retry, run_id, collected_at
+                )
+                if retry_records:
+                    fetched, parsed, records = retry, retry_parsed, retry_records
+                    report.route = retry.route
+                    report.via = retry.via
+                    report.http_status = retry.status
+
+        if parsed is None:
             report.status = "error"
-            report.error = fetched.error
-            LOGGER.warning("[%s] falhou: %s", feed.name, fetched.error)
+            report.error = fetched.error or "sem conteúdo"
+            LOGGER.warning("[%s] falhou: %s", feed.name, report.error)
             return report, []
 
-        parsed = self._parse(feed, fetched)
         report.strategy = parsed.strategy
-        items = dedupe_items(parsed.items)
-        if self.limit_per_feed:
-            items = items[: self.limit_per_feed]
-
-        records = []
-        for item in items:
-            record = self._build_record(feed, parsed, item, run_id, collected_at, fetched)
-            if record is not None:
-                records.append(record)
 
         report.items = len(records)
         report.status = "ok" if records else "empty"
@@ -158,6 +184,24 @@ class Collector:
             "[%s] %s itens via %s:%s", feed.name, len(records), fetched.route, fetched.via
         )
         return report, records
+
+    def _records(
+        self,
+        feed: Feed,
+        parsed: ParsedFeed,
+        fetched: FetchResult,
+        run_id: str,
+        collected_at: str,
+    ) -> List[dict]:
+        items = dedupe_items(parsed.items)
+        if self.limit_per_feed:
+            items = items[: self.limit_per_feed]
+        records = []
+        for item in items:
+            record = self._build_record(feed, parsed, item, run_id, collected_at, fetched)
+            if record is not None:
+                records.append(record)
+        return records
 
     def _parse(self, feed: Feed, fetched: FetchResult) -> ParsedFeed:
         if fetched.is_markdown:

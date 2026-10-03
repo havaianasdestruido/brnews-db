@@ -59,8 +59,7 @@ DEFAULT_USER_AGENTS = [
 DEFAULT_MIRRORS: List[dict] = [
     {"name": "allorigins", "template": "https://api.allorigins.win/raw?url={qurl}", "raw": True},
     {"name": "codetabs", "template": "https://api.codetabs.com/v1/proxy/?quest={qurl}", "raw": True},
-    {"name": "corsproxy", "template": "https://corsproxy.io/?url={qurl}", "raw": True},
-    {"name": "whateverorigin", "template": "https://api.cors.lol/?url={qurl}", "raw": True},
+    {"name": "cors-lol", "template": "https://api.cors.lol/?url={qurl}", "raw": True},
     {"name": "jina", "template": "https://r.jina.ai/{url}", "raw": False},
 ]
 
@@ -336,13 +335,18 @@ class Fetcher:
         url: str,
         validate: Optional[Callable[[bytes, str], bool]] = None,
         allow_markdown_mirrors: bool = False,
+        routes: Optional[Sequence[str]] = None,
     ) -> FetchResult:
-        """Baixa ``url`` tentando todas as rotas até ``validate`` aprovar."""
+        """Baixa ``url`` tentando todas as rotas até ``validate`` aprovar.
+
+        ``routes`` restringe/reordena as rotas desta chamada (ex.: só
+        ``["mirror"]`` quando a rota direta já respondeu, mas sem notícias).
+        """
         started = time.monotonic()
         result = FetchResult(url=url)
         last_error = ""
 
-        for route in self.route_order:
+        for route in (routes if routes is not None else self.route_order):
             targets: List[tuple[str, str, Optional[str], Optional[dict]]] = []
             if route == ROUTE_DIRECT:
                 targets.append((ROUTE_DIRECT, "direct", None, None))
