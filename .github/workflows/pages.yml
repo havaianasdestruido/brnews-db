@@ -4,7 +4,10 @@ name: Publicar site (Jekyll + Docusaurus)
 #   /          -> página inicial, construída com Jekyll a partir de site/
 #   /docs      -> documentação completa, construída com Docusaurus a partir de website/
 #
-# Requer, uma única vez, Settings > Pages > Build and deployment = "GitHub Actions".
+# O passo `actions/configure-pages` abaixo usa `enablement: true`, que liga o
+# GitHub Pages (origem = "GitHub Actions") sozinho na primeira execução. Sem ele,
+# o `deploy-pages` falha com "HttpError: Not Found" enquanto o Pages não tiver
+# sido habilitado à mão em Settings > Pages.
 on:
   push:
     branches:
@@ -28,9 +31,21 @@ jobs:
     name: Construir Jekyll (raiz) + Docusaurus (/docs)
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # `enablement: true` precisa escrever na configuração do Pages.
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - name: Checkout do repositório
         uses: actions/checkout@v4
+
+      # Habilita o Pages (origem = GitHub Actions) caso ainda não esteja ligado,
+      # evitando o 404 do deploy na primeira publicação do repositório.
+      - name: Configurar o GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       # ------------------------------------------------ página inicial (Jekyll)
       - name: Construir a página inicial com Jekyll
