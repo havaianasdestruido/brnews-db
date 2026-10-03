@@ -1,0 +1,172 @@
+name: Coleta semanal de notícias
+
+# Roda toda segunda-feira às 00:00 UTC (21:00 de domingo em Brasília).
+# Cada execução gera um arquivo NOVO em data/<ano>/news-<timestamp>.jsonl:
+# nada é sobrescrito nem apagado, o histórico só cresce.
+on:
+  schedule:
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+    inputs:
+      limit_per_feed:
+        description: "Máximo de notícias por feed (0 = sem limite)"
+        required: false
+        default: "0"
+      max_age_days:
+        description: "Descartar notícias mais antigas que N dias (0 = manter tudo)"
+        required: false
+        default: "0"
+      skip_seen:
+        description: "Ignorar itens já presentes nos últimos N snapshots (0 = desligado)"
+        required: false
+        default: "0"
+      route_order:
+        description: "Ordem das rotas de download"
+        required: false
+        default: "direct,proxy,mirror"
+        type: choice
+        options:
+          - "direct,proxy,mirror"
+          - "proxy,direct,mirror"
+          - "proxy,mirror"
+          - "direct,mirror"
+          - "direct"
+      include_content:
+        description: "Salvar o texto completo (content_text) — arquivos bem maiores"
+        required: false
+        default: false
+        type: boolean
+      gzip:
+        description: "Salvar como .jsonl.gz"
+        required: false
+        default: false
+        type: boolean
+      dry_run:
+        description: "Só testar: não grava nem commita nada"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-news
+  cancel-in-progress: false
+
+jobs:
+  coletar:
+    name: Coletar feeds e publicar JSONL
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: true
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Testes rápidos do coletor (offline)
+        run: python -m unittest discover -s tests -q
+
+      - name: Coletar notícias de todos os feeds
+        id: coleta
+        continue-on-error: true
+        env:
+          # Opcional: cadastre em Settings > Secrets > Actions.
+          # Um proxy por linha (ou separados por vírgula). Formatos aceitos:
+          #   http://user:senha@host:3128 | https://host:8443 | socks5://host:1080 | host:porta
+          PROXY_LIST: ${{ secrets.PROXY_LIST }}
+          PYTHONUNBUFFERED: "1"
+        run: |
+          python scripts/collect_news.py \
+            --verbose \
+            --workers 8 \
+            --timeout 30 \
+            --attempts 2 \
+            --min-interval 1 \
+            --route-order "${{ inputs.route_order || 'direct,proxy,mirror' }}" \
+            --limit-per-feed "${{ inputs.limit_per_feed || '0' }}" \
+            --max-age-days "${{ inputs.max_age_days || '0' }}" \
+            --skip-seen "${{ inputs.skip_seen || '0' }}" \
+            ${{ inputs.include_content == true && ' ' || '--no-content' }} \
+            ${{ inputs.gzip == true && '--gzip' || ' ' }} \
+            ${{ inputs.dry_run == true && '--dry-run' || ' ' }}
+
+      - name: Publicar JSONL no repositório (append-only)
+        if: ${{ inputs.dry_run != true }}
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Só adiciona arquivos novos/alterados dentro de data/ — nada é removido.
+          git add --all data/
+          if git diff --cached --quiet; then
+            echo "Nenhum arquivo novo para commitar."
+            exit 0
+          fi
+
+          ARQUIVO="$(git diff --cached --name-only --diff-filter=A | grep -E 'news-.*\.jsonl' | head -1 || true)"
+          ITENS="${{ steps.coleta.outputs.items || '0' }}"
+          OK="${{ steps.coleta.outputs.feeds_ok || '0' }}"
+          FALHOU="${{ steps.coleta.outputs.feeds_failed || '0' }}"
+          git commit -m "data: coleta semanal $(date -u +%Y-%m-%d) (${ITENS} notícias, ${OK} feeds ok, ${FALHOU} com erro)" \
+                     -m "Arquivo: ${ARQUIVO:-n/d} | run_id: ${{ steps.coleta.outputs.run_id }} | workflow run ${{ github.run_id }}"
+
+          # Push com retentativas (caso alguém commite no meio do caminho).
+          # data/index.jsonl usa merge=union (.gitattributes), então o rebase
+          # junta as linhas das duas pontas em vez de dar conflito.
+          for tentativa in 1 2 3 4 5; do
+            if git push origin "HEAD:${BRANCH}"; then
+              echo "Push concluído na tentativa ${tentativa}."
+              exit 0
+            fi
+            echo "Push falhou (tentativa ${tentativa}); sincronizando com origin/${BRANCH}..."
+            git fetch --deepen=100 origin "${BRANCH}" || git fetch origin "${BRANCH}"
+            git rebase "origin/${BRANCH}" || {
+              echo "Conflito no rebase; refazendo o commit sobre a ponta remota."
+              git rebase --abort || true
+              git reset --soft HEAD~1 || true
+              git stash --include-untracked || true
+              git reset --hard "origin/${BRANCH}"
+              git stash pop || true
+              git add --all data/
+              git commit -m "data: coleta semanal $(date -u +%Y-%m-%d) (reenvio)" || true
+            }
+            sleep $((tentativa * 5))
+          done
+          echo "Não foi possível enviar o commit após 5 tentativas." >&2
+          exit 1
+
+      - name: Guardar cópia como artifact (90 dias)
+        if: ${{ always() && inputs.dry_run != true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: noticias-${{ github.run_id }}
+          path: |
+            ${{ steps.coleta.outputs.jsonl }}
+            ${{ steps.coleta.outputs.report }}
+          retention-days: 90
+          if-no-files-found: warn
+
+      - name: Falhar se a coleta deu errado
+        if: ${{ steps.coleta.outcome == 'failure' }}
+        run: |
+          echo "A coleta terminou com erro (nenhuma notícia obtida)." >&2
+          exit 1

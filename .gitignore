@@ -1,0 +1,9 @@
+# Proxies reais (podem conter usuário/senha) nunca vão para o git
+config/proxies.txt
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
