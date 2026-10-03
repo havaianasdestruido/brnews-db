@@ -63,6 +63,13 @@ DEFAULT_MIRRORS: List[dict] = [
     {"name": "jina", "template": "https://r.jina.ai/{url}", "raw": False},
 ]
 
+# Falhas que realmente indicam proxy ruim (e não site de destino bloqueando).
+TRANSPORT_ERRORS = (
+    requests.exceptions.ProxyError,
+    requests.exceptions.ConnectionError,
+    requests.exceptions.ConnectTimeout,
+)
+
 ROUTE_DIRECT = "direct"
 ROUTE_PROXY = "proxy"
 ROUTE_MIRROR = "mirror"
@@ -242,6 +249,7 @@ class Fetcher:
         min_interval_per_host: float = 1.0,
         user_agents: Sequence[str] = tuple(DEFAULT_USER_AGENTS),
         verify_tls: bool = True,
+        mirrors_through_proxy: bool = False,
     ):
         self.pool = ProxyPool(proxies)
         self.mirrors = list(mirrors if mirrors is not None else DEFAULT_MIRRORS)
@@ -255,6 +263,9 @@ class Fetcher:
         self.min_interval_per_host = min_interval_per_host
         self.user_agents = list(user_agents) or list(DEFAULT_USER_AGENTS)
         self.verify_tls = verify_tls
+        # Quando True, requisições a espelhos também saem por proxy (e a rota
+        # mirror é ignorada se não houver proxy disponível).
+        self.mirrors_through_proxy = mirrors_through_proxy
 
         self._local = threading.local()
         self._host_lock = threading.Lock()
@@ -354,10 +365,21 @@ class Fetcher:
                 for proxy in self.pool.take(self.max_proxies_per_url):
                     targets.append((ROUTE_PROXY, proxy, proxy, None))
             elif route == ROUTE_MIRROR:
+                mirror_proxy: Optional[str] = None
+                if self.mirrors_through_proxy:
+                    # Modo "só proxy": o espelho também precisa sair por um
+                    # proxy, senão o IP do runner apareceria para o espelho.
+                    available = self.pool.take(1)
+                    if not available:
+                        LOGGER.warning(
+                            "sem proxy disponível: rota mirror ignorada para %s", url
+                        )
+                        continue
+                    mirror_proxy = available[0]
                 for mirror in self.mirrors:
                     if not mirror.get("raw", True) and not allow_markdown_mirrors:
                         continue
-                    targets.append((ROUTE_MIRROR, mirror["name"], None, mirror))
+                    targets.append((ROUTE_MIRROR, mirror["name"], mirror_proxy, mirror))
 
             for route_name, label, proxy, mirror in targets:
                 # espelho público: uma tentativa só (ou funciona, ou passa adiante)
@@ -401,7 +423,11 @@ class Fetcher:
                         return result
                     except Exception as exc:  # noqa: BLE001 - failover genérico
                         last_error = f"{type(exc).__name__}: {exc}"[:300]
-                        if proxy:
+                        # Só penaliza o proxy em falha de transporte. Status HTTP
+                        # (403/404/...) e conteúdo inválido são culpa do site de
+                        # destino — desativar o proxy por isso derrubaria proxies
+                        # bons só porque um portal bloqueou.
+                        if proxy and isinstance(exc, TRANSPORT_ERRORS):
                             self.pool.report(proxy, False)
                         result.tried.append(f"{tried_label} ({last_error[:80]})")
                         LOGGER.debug("falha %s em %s: %s", tried_label, url, last_error)

@@ -14,10 +14,11 @@ from tempfile import TemporaryDirectory
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
+import collect_news  # noqa: E402
 from brnews.collector import Collector, load_seen_ids  # noqa: E402
 from brnews.feedlist import Feed, load_feeds, parse_line, slugify  # noqa: E402
 from brnews.fetcher import Fetcher, ProxyPool, load_proxies, mask, normalize_proxy  # noqa: E402
-from brnews.parsers import canonical_url, parse_html, parse_markdown, parse_rss  # noqa: E402
+from brnews.parsers import canonical_url, parse_html, parse_markdown, parse_rss, same_site  # noqa: E402
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -110,6 +111,72 @@ class ProxyTests(unittest.TestCase):
         self.assertEqual(pool.stats(), {"configured": 2, "disabled": 1})
 
 
+class ProxyPenaltyTests(unittest.TestCase):
+    """Proxy só é penalizado por falha de transporte, não por erro do site."""
+
+    def test_http_error_does_not_disable_proxy(self):
+        with LocalServer(FIXTURES) as server:
+            # O servidor local faz as vezes de proxy: responde 404 à URL
+            # absoluta, ou seja, o transporte funcionou e o site é que falhou.
+            proxy = f"http://127.0.0.1:{server.port}"
+            fetcher = Fetcher(
+                proxies=[proxy],
+                route_order=["proxy"],
+                attempts_per_route=1,
+                min_interval_per_host=0,
+                timeout=5,
+            )
+            result = fetcher.get("http://exemplo.invalido/feed.xml")
+            self.assertFalse(result.ok)
+            self.assertEqual(fetcher.pool.stats()["disabled"], 0)
+            self.assertEqual(fetcher.pool.take(1), [proxy])
+
+    def test_connection_error_disables_proxy(self):
+        morto = "http://127.0.0.1:9"
+        fetcher = Fetcher(
+            proxies=[morto],
+            route_order=["proxy"],
+            attempts_per_route=3,
+            min_interval_per_host=0,
+            backoff=0,
+            timeout=2,
+        )
+        fetcher.pool.max_failures = 3
+        result = fetcher.get("http://exemplo.invalido/feed.xml")
+        self.assertFalse(result.ok)
+        self.assertEqual(fetcher.pool.stats()["disabled"], 1)
+
+    def test_mirrors_through_proxy_skipped_without_proxy(self):
+        """--proxies-only não pode vazar o IP local pelo espelho."""
+        fetcher = Fetcher(
+            proxies=[],
+            route_order=["mirror"],
+            mirrors_through_proxy=True,
+            attempts_per_route=1,
+            min_interval_per_host=0,
+        )
+        result = fetcher.get("http://exemplo.invalido/feed.xml")
+        self.assertFalse(result.ok)
+        self.assertEqual(result.attempts, 0)
+        self.assertEqual(result.tried, [])
+
+
+class CliTests(unittest.TestCase):
+    def test_proxies_only_without_proxies_is_config_error(self):
+        with TemporaryDirectory() as tmp:
+            code = collect_news.main(
+                [
+                    "--proxies-only",
+                    "--no-mirrors",
+                    "--dry-run",
+                    "--max-feeds", "1",
+                    "--output-dir", tmp,
+                    "--proxy-file", str(Path(tmp) / "inexistente.txt"),
+                ]
+            )
+        self.assertEqual(code, 2)
+
+
 class ParserTests(unittest.TestCase):
     def test_parse_rss_fixture(self):
         parsed = parse_rss((FIXTURES / "sample_feed.xml").read_bytes(), "https://exemplo.com/feed")
@@ -136,6 +203,24 @@ class ParserTests(unittest.TestCase):
         text = "[Prefeitura anuncia obras na zona leste da capital](https://exemplo.com/noticia/obras-zona-leste-2026)"
         parsed = parse_markdown(text, "https://exemplo.com/")
         self.assertEqual(len(parsed.items), 1)
+
+    def test_same_site_compares_host_labels(self):
+        self.assertTrue(same_site("www.ovale.com.br", "ovale.com.br"))
+        self.assertTrue(same_site("g1.globo.com", "globo.com"))
+        self.assertTrue(same_site("estadao.com.br", "politica.estadao.com.br"))
+        # substring não basta: ale.com.br não é parte de ovale.com.br
+        self.assertFalse(same_site("ale.com.br", "ovale.com.br"))
+        self.assertFalse(same_site("exemplo.com.evil.net", "exemplo.com"))
+        self.assertFalse(same_site("naoexemplo.com", "exemplo.com"))
+
+    def test_html_rejects_links_from_other_hosts(self):
+        html = (
+            b"<html><body><article class='card'><h2>"
+            b"<a href='https://ale.com.br/noticia/pauta-da-camara-nesta-quinta'>"
+            b"Camara vota pauta economica nesta quinta-feira</a></h2></article></body></html>"
+        )
+        parsed = parse_html(html, "https://www.ovale.com.br/")
+        self.assertEqual(parsed.items, [])
 
     def test_canonical_url_strips_tracking(self):
         self.assertEqual(

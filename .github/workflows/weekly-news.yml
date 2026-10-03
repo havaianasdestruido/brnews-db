@@ -3,9 +3,17 @@ name: Coleta semanal de notícias
 # Roda toda segunda-feira às 00:00 UTC (21:00 de domingo em Brasília).
 # Cada execução gera um arquivo NOVO em data/<ano>/news-<timestamp>.jsonl:
 # nada é sobrescrito nem apagado, o histórico só cresce.
+#
+# A coleta (que baixa conteúdo de terceiros) roda sem permissão de escrita e
+# sem token de push no checkout. Só o job "publicar", que não acessa a rede
+# externa, recebe contents: write.
 on:
   schedule:
     - cron: "0 0 * * 1"
+  # TEMPORÁRIO: validação end-to-end nesta branch (será removido no commit seguinte)
+  push:
+    paths:
+      - ".github/workflows/weekly-news.yml"
   workflow_dispatch:
     inputs:
       limit_per_feed:
@@ -48,7 +56,7 @@ on:
         type: boolean
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: weekly-news
@@ -56,16 +64,25 @@ concurrency:
 
 jobs:
   coletar:
-    name: Coletar feeds e publicar JSONL
+    name: Coletar feeds
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    permissions:
+      contents: read
+    outputs:
+      run_id: ${{ steps.coleta.outputs.run_id }}
+      items: ${{ steps.coleta.outputs.items }}
+      feeds_ok: ${{ steps.coleta.outputs.feeds_ok }}
+      feeds_failed: ${{ steps.coleta.outputs.feeds_failed }}
+      jsonl: ${{ steps.coleta.outputs.jsonl }}
 
     steps:
       - name: Checkout do repositório
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-          persist-credentials: true
+          # Nenhum token de escrita fica no .git durante a coleta.
+          persist-credentials: false
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -91,25 +108,138 @@ jobs:
           #   http://user:senha@host:3128 | https://host:8443 | socks5://host:1080 | host:porta
           PROXY_LIST: ${{ secrets.PROXY_LIST }}
           PYTHONUNBUFFERED: "1"
+          # Entradas do workflow via ambiente (nunca interpoladas no shell).
+          IN_LIMIT_PER_FEED: ${{ inputs.limit_per_feed || '0' }}
+          IN_MAX_AGE_DAYS: ${{ inputs.max_age_days || '0' }}
+          IN_SKIP_SEEN: ${{ inputs.skip_seen || '0' }}
+          IN_ROUTE_ORDER: ${{ inputs.route_order || 'direct,proxy,mirror' }}
+          IN_INCLUDE_CONTENT: ${{ inputs.include_content == true }}
+          IN_GZIP: ${{ inputs.gzip == true }}
+          IN_DRY_RUN: ${{ inputs.dry_run == true }}
         run: |
+          set -euo pipefail
+
+          # Valida as entradas numéricas antes de usá-las.
+          for var in IN_LIMIT_PER_FEED IN_MAX_AGE_DAYS IN_SKIP_SEEN; do
+            valor="${!var}"
+            if ! [[ "${valor}" =~ ^[0-9]+$ ]]; then
+              echo "::error::${var}='${valor}' inválido: use um inteiro não negativo." >&2
+              exit 1
+            fi
+          done
+          if ! [[ "${IN_ROUTE_ORDER}" =~ ^(direct|proxy|mirror)(,(direct|proxy|mirror))*$ ]]; then
+            echo "::error::route_order='${IN_ROUTE_ORDER}' inválido." >&2
+            exit 1
+          fi
+
+          # if/fi em vez de "teste && comando": com set -e um teste falso no
+          # fim da linha derrubaria o step.
+          opcionais=()
+          if [[ "${IN_INCLUDE_CONTENT}" != "true" ]]; then opcionais+=(--no-content); fi
+          if [[ "${IN_GZIP}" == "true" ]]; then opcionais+=(--gzip); fi
+          if [[ "${IN_DRY_RUN}" == "true" ]]; then opcionais+=(--dry-run); fi
+
           python scripts/collect_news.py \
             --verbose \
             --workers 8 \
             --timeout 30 \
             --attempts 3 \
             --min-interval 1 \
-            --route-order "${{ inputs.route_order || 'direct,proxy,mirror' }}" \
-            --limit-per-feed "${{ inputs.limit_per_feed || '0' }}" \
-            --max-age-days "${{ inputs.max_age_days || '0' }}" \
-            --skip-seen "${{ inputs.skip_seen || '0' }}" \
-            ${{ inputs.include_content == true && ' ' || '--no-content' }} \
-            ${{ inputs.gzip == true && '--gzip' || ' ' }} \
-            ${{ inputs.dry_run == true && '--dry-run' || ' ' }}
+            --route-order "${IN_ROUTE_ORDER}" \
+            --limit-per-feed "${IN_LIMIT_PER_FEED}" \
+            --max-age-days "${IN_MAX_AGE_DAYS}" \
+            --skip-seen "${IN_SKIP_SEEN}" \
+            "${opcionais[@]}"
 
-      - name: Publicar JSONL no repositório (append-only)
-        if: ${{ inputs.dry_run != true }}
+      - name: Separar os arquivos desta coleta
+        id: pacote
+        if: ${{ inputs.dry_run != true && steps.coleta.outputs.jsonl != '' }}
+        env:
+          JSONL: ${{ steps.coleta.outputs.jsonl }}
+          REPORT: ${{ steps.coleta.outputs.report }}
+        run: |
+          set -euo pipefail
+          test -f "${JSONL}"
+          mkdir -p pacote
+          # Mantém data/<ano>/... dentro do pacote para o job de publicação.
+          cp --parents "${JSONL}" "${REPORT}" pacote/
+          cp data/index.jsonl "pacote/index-da-coleta.jsonl"
+          find pacote -type f -print
+
+      - name: Guardar cópia como artifact (90 dias)
+        if: ${{ inputs.dry_run != true && steps.pacote.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: coleta-${{ github.run_id }}
+          path: pacote/
+          retention-days: 90
+          if-no-files-found: error
+
+      - name: Falhar se a coleta deu errado
+        if: ${{ steps.coleta.outcome == 'failure' }}
+        run: |
+          echo "A coleta terminou com erro (nenhuma notícia obtida)." >&2
+          exit 1
+
+  publicar:
+    name: Publicar JSONL no repositório (append-only)
+    runs-on: ubuntu-latest
+    needs: coletar
+    if: ${{ inputs.dry_run != true && needs.coletar.outputs.jsonl != '' }}
+    timeout-minutes: 15
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: true
+
+      - name: Baixar os arquivos da coleta
+        uses: actions/download-artifact@v4
+        with:
+          name: coleta-${{ github.run_id }}
+          path: pacote
+
+      - name: Colocar os arquivos novos em data/ (sem sobrescrever)
+        env:
+          JSONL: ${{ needs.coletar.outputs.jsonl }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+
+          # Snapshot + relatório: copiados só se ainda não existirem.
+          for origem in pacote/data/*/*; do
+            destino="data/${origem#pacote/data/}"
+            mkdir -p "$(dirname "${destino}")"
+            if [[ -e "${destino}" ]]; then
+              echo "::warning::${destino} já existe no repositório; mantido como está."
+            else
+              cp "${origem}" "${destino}"
+              echo "novo: ${destino}"
+            fi
+          done
+
+          # index.jsonl é append-only: acrescenta apenas a linha desta execução.
+          if [[ -f pacote/index-da-coleta.jsonl ]]; then
+            linha="$(tail -n 1 pacote/index-da-coleta.jsonl)"
+            if [[ -n "${linha}" ]] && ! grep -qxF "${linha}" data/index.jsonl 2>/dev/null; then
+              printf '%s\n' "${linha}" >> data/index.jsonl
+            fi
+          fi
+
+          test -f "${JSONL}"
+
+      - name: Commitar e enviar
         env:
           BRANCH: ${{ github.ref_name }}
+          ITENS: ${{ needs.coletar.outputs.items }}
+          OK: ${{ needs.coletar.outputs.feeds_ok }}
+          FALHOU: ${{ needs.coletar.outputs.feeds_failed }}
+          RUN_ID: ${{ needs.coletar.outputs.run_id }}
+          ARQUIVO: ${{ needs.coletar.outputs.jsonl }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -122,12 +252,8 @@ jobs:
             exit 0
           fi
 
-          ARQUIVO="$(git diff --cached --name-only --diff-filter=A | grep -E 'news-.*\.jsonl' | head -1 || true)"
-          ITENS="${{ steps.coleta.outputs.items || '0' }}"
-          OK="${{ steps.coleta.outputs.feeds_ok || '0' }}"
-          FALHOU="${{ steps.coleta.outputs.feeds_failed || '0' }}"
-          git commit -m "data: coleta semanal $(date -u +%Y-%m-%d) (${ITENS} notícias, ${OK} feeds ok, ${FALHOU} com erro)" \
-                     -m "Arquivo: ${ARQUIVO:-n/d} | run_id: ${{ steps.coleta.outputs.run_id }} | workflow run ${{ github.run_id }}"
+          git commit -m "data: coleta semanal $(date -u +%Y-%m-%d) (${ITENS:-0} notícias, ${OK:-0} feeds ok, ${FALHOU:-0} com erro)" \
+                     -m "Arquivo: ${ARQUIVO:-n/d} | run_id: ${RUN_ID:-n/d} | workflow run ${{ github.run_id }}"
 
           # Push com retentativas (caso alguém commite no meio do caminho).
           # data/index.jsonl usa merge=union (.gitattributes), então o rebase
@@ -142,31 +268,16 @@ jobs:
             git rebase "origin/${BRANCH}" || {
               echo "Conflito no rebase; refazendo o commit sobre a ponta remota."
               git rebase --abort || true
-              git reset --soft HEAD~1 || true
-              git stash --include-untracked || true
+              git reset --soft HEAD~1
+              git stash --include-untracked
               git reset --hard "origin/${BRANCH}"
-              git stash pop || true
+              # Sem "|| true": conflito aqui aborta o job em vez de commitar
+              # arquivos com marcadores de conflito.
+              git stash pop
               git add --all data/
-              git commit -m "data: coleta semanal $(date -u +%Y-%m-%d) (reenvio)" || true
+              git commit -m "data: coleta semanal $(date -u +%Y-%m-%d) (reenvio, run_id ${RUN_ID:-n/d})"
             }
             sleep $((tentativa * 5))
           done
           echo "Não foi possível enviar o commit após 5 tentativas." >&2
-          exit 1
-
-      - name: Guardar cópia como artifact (90 dias)
-        if: ${{ always() && inputs.dry_run != true }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: noticias-${{ github.run_id }}
-          path: |
-            ${{ steps.coleta.outputs.jsonl }}
-            ${{ steps.coleta.outputs.report }}
-          retention-days: 90
-          if-no-files-found: warn
-
-      - name: Falhar se a coleta deu errado
-        if: ${{ steps.coleta.outcome == 'failure' }}
-        run: |
-          echo "A coleta terminou com erro (nenhuma notícia obtida)." >&2
           exit 1

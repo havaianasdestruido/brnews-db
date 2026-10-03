@@ -67,6 +67,10 @@ socks5://usuario:senha@proxy.exemplo.com:1080
 189.12.34.56:8080
 ```
 
+Com `--proxies-only` a coleta **exige** pelo menos um proxy (sem nenhum, ela falha com erro de
+configuração em vez de cair para a rota direta) e até os espelhos são acessados através do proxy,
+para o IP de quem roda nunca aparecer.
+
 Localmente dá para usar `config/proxies.txt` (ignorado pelo git — veja
 [`config/proxies.example.txt`](config/proxies.example.txt)), as variáveis
 `PROXY_LIST`/`HTTPS_PROXY` ou `--proxy`. Credenciais nunca são gravadas nos relatórios:
@@ -125,8 +129,13 @@ antes de cada coleta.
 
 ## Estrutura
 
+O workflow é dividido em dois jobs por privilégio mínimo: **`coletar`** roda com
+`contents: read` e checkout sem token de escrita (é ele que baixa conteúdo de terceiros) e passa
+os arquivos adiante por artifact; **`publicar`** recebe `contents: write` só para copiar os
+arquivos novos em `data/` (nunca sobrescrevendo) e dar o push.
+
 ```
-.github/workflows/weekly-news.yml   # agenda, coleta, commit e artifact
+.github/workflows/weekly-news.yml   # agenda, coleta (read-only) e publicação (write)
 scripts/collect_news.py             # CLI
 scripts/brnews/feedlist.py          # leitura de rss.txt
 scripts/brnews/fetcher.py           # HTTP com proxies rotativos + espelhos

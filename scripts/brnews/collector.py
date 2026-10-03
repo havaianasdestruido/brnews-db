@@ -534,6 +534,16 @@ def write_annotations(result: RunResult, max_warnings: int = 12) -> None:
         )
 
 
+def _relative_path(path: Optional[Path]) -> str:
+    """Caminho relativo ao diretório atual (fica utilizável entre jobs do CI)."""
+    if not path:
+        return ""
+    try:
+        return str(Path(path).resolve().relative_to(Path.cwd().resolve()))
+    except ValueError:
+        return str(path)
+
+
 def write_github_output(result: RunResult) -> None:
     output_file = os.environ.get("GITHUB_OUTPUT")
     if not output_file:
@@ -543,8 +553,8 @@ def write_github_output(result: RunResult) -> None:
         "items": str(result.total_items),
         "feeds_ok": str(result.feeds_ok),
         "feeds_failed": str(result.feeds_failed),
-        "jsonl": str(result.jsonl_path) if result.jsonl_path else "",
-        "report": str(result.report_path) if result.report_path else "",
+        "jsonl": _relative_path(result.jsonl_path),
+        "report": _relative_path(result.report_path),
     }
     with open(output_file, "a", encoding="utf-8") as handle:
         for key, value in values.items():

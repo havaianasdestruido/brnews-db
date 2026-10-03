@@ -67,10 +67,18 @@ jobs:
       - name: Coletar amostra sem gravar nada
         env:
           PROXY_LIST: ${{ secrets.PROXY_LIST }}
+          # Entrada via ambiente (nunca interpolada no shell) e validada abaixo.
+          IN_MAX_FEEDS: ${{ inputs.max_feeds || '20' }}
         run: |
+          set -euo pipefail
+          if ! [[ "${IN_MAX_FEEDS}" =~ ^[0-9]+$ ]]; then
+            echo "::error::max_feeds='${IN_MAX_FEEDS}' inválido: use um inteiro não negativo." >&2
+            exit 1
+          fi
+
           python scripts/collect_news.py \
             --dry-run --verbose \
-            --max-feeds "${{ inputs.max_feeds || '20' }}" \
+            --max-feeds "${IN_MAX_FEEDS}" \
             --limit-per-feed 3 \
             --attempts 3 \
             --workers 8 \

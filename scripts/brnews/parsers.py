@@ -249,13 +249,34 @@ def _jsonld_items(soup: BeautifulSoup, base_url: str) -> List[dict]:
     return items
 
 
+def _normalize_host(host: str) -> str:
+    host = (host or "").split(":")[0].strip().lower().rstrip(".")
+    return host[4:] if host.startswith("www.") else host
+
+
+def same_site(link_host: str, base_host: str) -> bool:
+    """Mesmo domínio ou subdomínio dele — comparação por rótulo, não substring.
+
+    ``ale.com.br`` **não** é parte de ``ovale.com.br``; já
+    ``g1.globo.com`` é subdomínio de ``globo.com``.
+    """
+    link_host = _normalize_host(link_host)
+    base_host = _normalize_host(base_host)
+    if not link_host or not base_host:
+        return True
+    return (
+        link_host == base_host
+        or link_host.endswith("." + base_host)
+        or base_host.endswith("." + link_host)
+    )
+
+
 def _looks_like_article(link: str, title: str, base_host: str) -> bool:
     if not link or len(title) < 20:
         return False
     parts = urlsplit(link)
-    if base_host and parts.netloc and parts.netloc.split(":")[0] not in base_host:
-        if not base_host.endswith(parts.netloc.split(":")[0].replace("www.", "")):
-            return False
+    if not same_site(parts.netloc, base_host):
+        return False
     path = parts.path or "/"
     if path in ("", "/") or _BAD_PATH_RE.search(path):
         return False

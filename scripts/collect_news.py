@@ -89,7 +89,10 @@ def build_parser() -> argparse.ArgumentParser:
     group.add_argument(
         "--proxies-only",
         action="store_true",
-        help="atalho para --route-order proxy,mirror (nunca sai pelo IP do runner)",
+        help=(
+            "atalho para --route-order proxy,mirror; exige ao menos um proxy e "
+            "manda até os espelhos por proxy (nunca sai pelo IP do runner)"
+        ),
     )
     group.add_argument("--no-mirrors", action="store_true", help="desliga espelhos públicos")
     group.add_argument(
@@ -126,6 +129,15 @@ def main(argv: list[str] | None = None) -> int:
     if args.no_mirrors:
         route_order = [route for route in route_order if route != "mirror"]
     if not proxies:
+        if args.proxies_only:
+            # Nunca cair para "direct" aqui: o modo existe justamente para não
+            # expor o IP de quem roda a coleta.
+            print(
+                "erro: --proxies-only exige pelo menos um proxy "
+                "(use --proxy, --proxy-file ou o secret/variável PROXY_LIST)",
+                file=sys.stderr,
+            )
+            return 2
         route_order = [route for route in route_order if route != "proxy"]
         if not route_order:
             route_order = ["direct"]
@@ -139,6 +151,9 @@ def main(argv: list[str] | None = None) -> int:
         min_interval_per_host=args.min_interval,
         verify_tls=not args.insecure,
         mirrors=None if not args.no_mirrors else [],
+        # Em --proxies-only o espelho também sai por proxy; sem proxy ativo a
+        # rota mirror é pulada em vez de vazar o IP local.
+        mirrors_through_proxy=args.proxies_only,
     )
 
     output_dir = Path(args.output_dir)
