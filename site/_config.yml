@@ -1,0 +1,17 @@
+title: brnews-db
+description: >-
+  Notícias em português coletadas automaticamente de feeds RSS (e de algumas
+  páginas HTML). Toda segunda-feira um snapshot JSONL novo — o acervo só cresce.
+lang: pt-BR
+
+# Publicado em https://havaianasdestruido.github.io/brnews-db/
+url: "https://havaianasdestruido.github.io"
+baseurl: "/brnews-db"
+
+# Links usados pelo layout
+github_url: https://github.com/havaianasdestruido/brnews-db
+# A documentação (Docusaurus) é publicada pelo mesmo workflow em /docs
+docs_path: /docs/
+
+exclude:
+  - README.md

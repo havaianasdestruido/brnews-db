@@ -1,0 +1,26 @@
+/**
+ * Ajustes de tema do brnews-db (verde/azul inspirados na bandeira).
+ */
+
+:root {
+  --ifm-color-primary: #00804f;
+  --ifm-color-primary-dark: #007347;
+  --ifm-color-primary-darker: #006d43;
+  --ifm-color-primary-darkest: #005a37;
+  --ifm-color-primary-light: #008d57;
+  --ifm-color-primary-lighter: #00935b;
+  --ifm-color-primary-lightest: #00a667;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #2bd389;
+  --ifm-color-primary-dark: #22c47d;
+  --ifm-color-primary-darker: #20b976;
+  --ifm-color-primary-darkest: #1a9861;
+  --ifm-color-primary-light: #41d894;
+  --ifm-color-primary-lighter: #4edb9a;
+  --ifm-color-primary-lightest: #74e2ae;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}

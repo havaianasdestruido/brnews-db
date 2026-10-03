@@ -1,0 +1,81 @@
+name: Publicar site (Jekyll + Docusaurus)
+
+# Publica o GitHub Pages do projeto combinando dois geradores:
+#   /          -> página inicial, construída com Jekyll a partir de site/
+#   /docs      -> documentação completa, construída com Docusaurus a partir de website/
+#
+# Requer, uma única vez, Settings > Pages > Build and deployment = "GitHub Actions".
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "site/**"
+      - "website/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Construir Jekyll (raiz) + Docusaurus (/docs)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      # ------------------------------------------------ página inicial (Jekyll)
+      - name: Construir a página inicial com Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./site
+          destination: ./_site
+
+      # ------------------------------------------------ documentação (Docusaurus)
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Construir a documentação com Docusaurus
+        working-directory: website
+        run: |
+          npm ci
+          npm run build
+
+      # ------------------------------------------------ juntar e publicar
+      - name: Colocar a documentação em /docs
+        run: |
+          # O container do Jekyll gera _site/ como root; devolve a posse ao runner.
+          sudo chown -R "$(id -u):$(id -g)" _site
+          mkdir -p _site/docs
+          cp -r website/build/. _site/docs/
+
+      - name: Enviar artefato do Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    name: Publicar no GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
