@@ -18,10 +18,13 @@ from bs4 import BeautifulSoup
 LOGGER = logging.getLogger("brnews.parsers")
 
 _WS_RE = re.compile(r"\s+")
-_MD_LINK_RE = re.compile(r"\[([^\]\n]{15,300})\]\((https?://[^\s)]+)\)")
+# (?<!!) evita casar com imagens no formato ![alt](url): logos e ícones
+# de redes sociais eram salvos como se fossem notícias.
+_MD_LINK_RE = re.compile(r"(?<!!)\[([^\]\n]{15,300})\]\((https?://[^\s)]+)\)")
 _TRACKING_PARAMS = re.compile(
     r"^(utm_|fbclid|gclid|igshid|mc_cid|mc_eid|xtor|cmpid|ref_src|spm$)", re.IGNORECASE
 )
+_ASSET_RE = re.compile(r"\.(svg|png|jpe?g|gif|webp|ico|css|js|woff2?|mp4|mp3)$", re.IGNORECASE)
 _BAD_PATH_RE = re.compile(
     r"/(tag|tags|autor|autores|author|categoria|category|busca|search|assine|assinatura|"
     r"newsletter|login|cadastro|contato|privacidade|termos|rss|feed|podcast/?$)(/|$)",
@@ -278,7 +281,7 @@ def _looks_like_article(link: str, title: str, base_host: str) -> bool:
     if not same_site(parts.netloc, base_host):
         return False
     path = parts.path or "/"
-    if path in ("", "/") or _BAD_PATH_RE.search(path):
+    if path in ("", "/") or _BAD_PATH_RE.search(path) or _ASSET_RE.search(path):
         return False
     if len(title.split()) < 4:
         return False

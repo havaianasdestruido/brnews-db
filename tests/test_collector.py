@@ -222,6 +222,16 @@ class ParserTests(unittest.TestCase):
         parsed = parse_html(html, "https://www.ovale.com.br/")
         self.assertEqual(parsed.items, [])
 
+    def test_markdown_ignores_images_and_assets(self):
+        texto = (
+            "![Image 1: Diario de Sao Paulo](https://spdiario.com.br/static/logo/logo_diario.svg)\n"
+            "[Prefeitura anuncia obras na zona leste da capital]"
+            "(https://spdiario.com.br/noticias/prefeitura-anuncia-obras-zona-leste)\n"
+        )
+        parsed = parse_markdown(texto, "https://spdiario.com.br/")
+        self.assertEqual(len(parsed.items), 1)
+        self.assertNotIn(".svg", parsed.items[0]["link"])
+
     def test_canonical_url_strips_tracking(self):
         self.assertEqual(
             canonical_url("https://e.com/a?utm_source=x&id=2#top"),
